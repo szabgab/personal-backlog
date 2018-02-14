@@ -9,7 +9,7 @@ def main():
     pb = PersonalBacklog.PB(args.file)
 
     while True:
-        choice = input()
+        choice = input("pb> ")
         if choice == 'm':
             show_menu()
         elif choice == 'a':

@@ -17,14 +17,14 @@ class PB(object):
 
 
     def add(self, title, estimate, priority):
-        if not re.search('\A\d\Z', estimate):
+        if not re.search('\A\d+\Z', estimate):
             print("Invalid estimate '{}'".format(estimate))
             return
         estimate = int(estimate)
 
         if priority == 'x':
             priority = 100  # TODO this should be the highers number of the existing priorities+1
-        elif re.search('\A\d\Z', priority):
+        elif re.search('\A\d+\Z', priority):
             priority = int(priority)
         else:
             print("Invalid priority '{}'".format(priority))
