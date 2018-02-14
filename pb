@@ -12,6 +12,13 @@ def main():
         choice = input()
         if choice == 'm':
             show_menu()
+        elif choice == 'a':
+                title = input("Task Title: ")
+                estimate = input("Estimate (1, 2, 3, 5, 8, 13, 21, 34, 55): ")
+                priority = input("Priority (0 = now, x = max time, some number): ")
+                pb.add(title, estimate, priority)
+        elif choice == 'l':
+            pb.list()
         elif choice == 'x':
             pb.save()
             exit()
@@ -21,6 +28,8 @@ def main():
 
 def show_menu():
     print("m) Menu")
+    print("a) Add task")
+    print("l) List")
     print("x) eXit")
 
 
