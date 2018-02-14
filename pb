@@ -2,9 +2,15 @@
 
 
 def main():
-    choice = input()
-    if choice == 'm':
-        show_menu()
+    while True:
+        choice = input()
+        if choice == 'm':
+            show_menu()
+        elif choice == 'x':
+            exit()
+        else:
+            print("Invalid choice '{}'".format(choice))
+
 
 def show_menu():
     print("m) Menu")
@@ -13,4 +19,4 @@ def show_menu():
 
 if __name__ == '__main__':
     main()
-    
+
