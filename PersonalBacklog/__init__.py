@@ -11,9 +11,12 @@ class PB(object):
                 self.data = json.load(fh)
         else:
             self.data = {}
+            self.data["format"] = 1
+            self.data["maxid"] = 0
+            if 'todo' not in self.data:
+                self.data["todo"] = []
 
-        if 'todo' not in self.data:
-            self.data["todo"] = []
+        self.tid = []
 
 
     def add(self, title, estimate, priority):
@@ -30,15 +33,34 @@ class PB(object):
             print("Invalid priority '{}'".format(priority))
             return
 
+        self.data["maxid"] += 1
         self.data["todo"].append( {
+            'id' : self.data["maxid"],
             'title' : title,
             'estimate': estimate,
             'priority': priority,
         })
 
     def list(self):
+        tid = -1
+        self.tid = []
         for entry in self.data["todo"]:
-            print("{priority} - {estimate} - {title}".format(**entry))
+            tid += 1
+            self.tid.append(entry['id'])
+            print("{tidx}) {priority} - {estimate} - {title}".format(tidx = tid, **entry))
+
+    def delete(self, tid):
+        if tid < 0 or len(self.tid) <= tid:
+            print("Invalid id - not in range '{}'".format(tid))
+            return
+
+        for i in range(len(self.data["todo"])):
+            entry = self.data["todo"][i]
+            if entry["id"] == self.tid[tid]:
+                self.data["todo"].pop(i)
+                #print(entry)
+                return
+        print("Internal error. Could not find it.")
 
 
     def save(self):
