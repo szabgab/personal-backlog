@@ -40,6 +40,7 @@ class PB(object):
             'estimate': estimate,
             'priority': priority,
         })
+        self.save()
 
     def list(self):
         tid = -1
@@ -59,6 +60,7 @@ class PB(object):
             if entry["id"] == self.tid[tid]:
                 self.data["todo"].pop(i)
                 #print(entry)
+                self.save()
                 return
         print("Internal error. Could not find it.")
 
