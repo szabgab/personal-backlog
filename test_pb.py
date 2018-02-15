@@ -7,8 +7,17 @@ def pb(tmpdir):
     filename = os.path.join(tmpdir, 'test.json')
     return PersonalBacklog.PB(filename)
 
+@pytest.fixture
+def pbx(pb):
+    pb.add("Hello World", '1', '3')
+    pb.add("Second Task", '3', '2')
+    pb.add("Third Thing", '0', '7')
+    pb.add("Fourth todo", '2', '2')
+    return pb
+
 
 class TestPB(object):
+
     def test_empty(self, pb, capsys):
 
         assert pb.list_calendar() == None
@@ -47,11 +56,8 @@ class TestPB(object):
         assert err == ''
         assert out == '0) 3 - 1 - Hello World\n1) 2 - 3 - Second Task\n2) 7 - 0 - Third Thing\n'
 
-    def test_delete(self, pb, capsys):
-        pb.add("Hello World", '1', '3')
-        pb.add("Second Task", '3', '2')
-        pb.add("Third Thing", '0', '7')
-        pb.add("Fourth todo", '2', '2')
+    def test_delete(self, pbx, capsys):
+        pb = pbx
 
         # delete before listing does not know what to delete
         assert pb.delete('1') == {'error': "Invalid id - not in range '1'"}
