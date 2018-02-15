@@ -35,7 +35,7 @@ def main():
                 end_time   = input("End time HH::MM: ")
                 location   = input("Location (free text): ")
                 ret = pb.schedule(title, start_date, start_time, end_date, end_time, location)
-        elif choice == 'x':
+        elif choice == 'x' or choice == 'q':
             pb.save()
             exit()
         else:
