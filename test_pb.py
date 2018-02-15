@@ -1,10 +1,15 @@
 import os
 import PersonalBacklog
+import pytest
+
+@pytest.fixture
+def pb(tmpdir):
+    filename = os.path.join(tmpdir, 'test.json')
+    return PersonalBacklog.PB(filename)
+
 
 class TestPB(object):
-    def test_pb(self, tmpdir, capsys):
-        filename = os.path.join(tmpdir, 'test.json')
-        pb = PersonalBacklog.PB(filename)
+    def test_pb(self, pb, capsys):
 
         assert pb.list_calendar() == None
         out, err = capsys.readouterr()
