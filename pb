@@ -13,13 +13,16 @@ def main():
     while True:
         choice = input("pb> ")
 
+        re_delete = '\Ad\s+(\d+)\Z'
+
         ret = {}
         if choice == 'a':
                 title = input("Task Title: ")
                 estimate = input("Estimate (1, 2, 3, 5, 8, 13, 21, 34, 55): ")
                 priority = input("Priority (0 = now, x = max time, some number): ")
                 pb.add(title, estimate, priority)
-        elif re.search('\Ad\s+(.+)', choice):
+        elif re.search(re_delete, choice):
+            m = re.search(re_delete, choice)
             ret = pb.delete(m.group(1))
         elif choice == 'lt':
             pb.list_todo()
