@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import datetime
 
 class PB(object):
     def __init__(self, filename):
@@ -57,13 +58,24 @@ class PB(object):
         })
         self.save()
 
-    def list(self):
+    def list_todo(self):
         tid = -1
         self.tid = []
         for entry in self.data["todo"]:
             tid += 1
             self.tid.append(entry['id'])
             print("{tidx}) {priority} - {estimate} - {title}".format(tidx = tid, **entry))
+
+    def list_calendar(self):
+        tid = -1
+        self.tid = []
+        today = datetime.datetime.now().strftime("%Y-%m-%d")
+        for entry in self.data["calendar"]:
+            if entry["start_date"] == today:
+                tid += 1
+                self.tid.append(entry['id'])
+                print("{tidx}) {start_time} - {end_time} - {title}".format(tidx = tid, **entry))
+
 
     def delete(self, tid):
         if tid < 0 or len(self.tid) <= tid:

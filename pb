@@ -20,8 +20,10 @@ def main():
         elif re.search('\Ad\s(\d+)\Z', choice):
             m = re.search('\Ad\s(\d+)\Z', choice)
             pb.delete(int(m.group(1)))
-        elif choice == 'l':
-            pb.list()
+        elif choice == 'lt':
+            pb.list_todo()
+        elif choice == 'lc':
+            pb.list_calendar()
         elif choice == 'm':
                 show_menu()
         elif choice == 's':
@@ -42,7 +44,8 @@ def main():
 def show_menu():
     print("a) Add task")
     print("d) Delete")
-    print("l) List")
+    print("lt) List todo")
+    print("lc) List calendar")
     print("m) Menu")
     print("s) Schedule")
     print("x) eXit")
