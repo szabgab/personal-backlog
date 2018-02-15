@@ -12,14 +12,15 @@ def main():
     show_menu()
     while True:
         choice = input("pb> ")
+
+        ret = {}
         if choice == 'a':
                 title = input("Task Title: ")
                 estimate = input("Estimate (1, 2, 3, 5, 8, 13, 21, 34, 55): ")
                 priority = input("Priority (0 = now, x = max time, some number): ")
                 pb.add(title, estimate, priority)
-        elif re.search('\Ad\s(\d+)\Z', choice):
-            m = re.search('\Ad\s(\d+)\Z', choice)
-            pb.delete(int(m.group(1)))
+        elif re.search('\Ad\s+(.+)', choice):
+            ret = pb.delete(m.group(1))
         elif choice == 'lt':
             pb.list_todo()
         elif choice == 'lc':
@@ -34,14 +35,14 @@ def main():
                 end_time   = input("End time HH::MM: ")
                 location   = input("Location (free text): ")
                 ret = pb.schedule(title, start_date, start_time, end_date, end_time, location)
-                if 'error' in ret:
-                    print(ret['error'])
         elif choice == 'x':
             pb.save()
             exit()
         else:
             print("Invalid choice '{}'".format(choice))
 
+        if 'error' in ret:
+            print(ret['error'])
 
 def show_menu():
     print("a) Add task")

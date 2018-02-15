@@ -90,11 +90,13 @@ class PB(object):
                 self.tid.append(entry['id'])
                 print("{tidx}) {start_time} - {end_time} - {title}".format(tidx = tid, **entry))
 
+    def delete(self, inp):
+        if not re.search('\A\d+\Z', inp):
+            return {"error" : "Invalid input '{}'".format(inp)}
 
-    def delete(self, tid):
+        tid = int(inp)
         if tid < 0 or len(self.tid) <= tid:
-            print("Invalid id - not in range '{}'".format(tid))
-            return
+            return { "error" : "Invalid id - not in range '{}'".format(tid) }
 
         for i in range(len(self.data["todo"])):
             entry = self.data["todo"][i]
@@ -102,8 +104,8 @@ class PB(object):
                 self.data["todo"].pop(i)
                 #print(entry)
                 self.save()
-                return
-        print("Internal error. Could not find it.")
+                return {}
+        return { "error" : "Internal error. Could not find it." }
 
 
     def save(self):

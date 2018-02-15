@@ -30,7 +30,22 @@ def test_pb(tmpdir, capsys):
     assert err == ''
     assert out == ''
 
+    assert pb.add("Third Thing", '0', '7') == None
+    out, err = capsys.readouterr()
+    assert err == ''
+    assert out == ''
+
     assert pb.list_todo() == None
     out, err = capsys.readouterr()
     assert err == ''
-    assert out == '0) 3 - 1 - Hello World\n1) 2 - 3 - Second Task\n'
+    assert out == '0) 3 - 1 - Hello World\n1) 2 - 3 - Second Task\n2) 7 - 0 - Third Thing\n'
+
+    assert pb.delete('1') == {}
+    out, err = capsys.readouterr()
+    assert err == ''
+    assert out == ''
+
+    assert pb.list_todo() == None
+    out, err = capsys.readouterr()
+    assert err == ''
+    assert out == '0) 3 - 1 - Hello World\n1) 7 - 0 - Third Thing\n'
