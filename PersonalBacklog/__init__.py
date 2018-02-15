@@ -44,8 +44,21 @@ class PB(object):
         self.save()
 
     def schedule(self, title, start_date, start_time, end_date, end_time, location):
-        # TODO: input validation!
-        # TODO: accept the special values
+        today = datetime.datetime.now()
+        tomorrow = today + datetime.timedelta(days=1)
+        if start_date == '0':
+            start_date = today.strftime("%Y-%m-%d")
+        if start_date == '1':
+            start_date =  tomorrow.strftime("%Y-%m-%d")
+        if end_date == '':
+            end_date = start_date
+        if not re.search('\A\d\d\d\d-\d\d-\d\d\Z', start_date):
+            return { "error": "Invalid start date '{}'".format(start_date) }
+        if not re.search('\A\d\d\d\d-\d\d-\d\d\Z', end_date):
+            return { "error": "Invalid end date '{}'".format(end_date) }
+
+        # TODO: more input validation!
+
         self.data["maxid"] += 1
         self.data["calendar"].append( {
             'id': self.data["maxid"],
@@ -57,6 +70,7 @@ class PB(object):
             'location': location,
         })
         self.save()
+        return {}
 
     def list_todo(self):
         tid = -1

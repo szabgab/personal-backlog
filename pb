@@ -33,7 +33,9 @@ def main():
                 end_date   = input("End Date YYYY-MM-DD ENTER=same as start date")
                 end_time   = input("End time HH::MM: ")
                 location   = input("Location (free text): ")
-                pb.schedule(title, start_date, start_time, end_date, end_time, location)
+                ret = pb.schedule(title, start_date, start_time, end_date, end_time, location)
+                if 'error' in ret:
+                    print(ret['error'])
         elif choice == 'x':
             pb.save()
             exit()
