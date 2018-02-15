@@ -13,8 +13,8 @@ class PB(object):
             self.data = {}
             self.data["format"] = 1
             self.data["maxid"] = 0
-            if 'todo' not in self.data:
-                self.data["todo"] = []
+            self.data["todo"] = []
+            self.data["calendar"] = []
 
         self.tid = []
 
@@ -39,6 +39,21 @@ class PB(object):
             'title' : title,
             'estimate': estimate,
             'priority': priority,
+        })
+        self.save()
+
+    def schedule(self, title, start_date, start_time, end_date, end_time, location):
+        # TODO: input validation!
+        # TODO: accept the special values
+        self.data["maxid"] += 1
+        self.data["calendar"].append( {
+            'id': self.data["maxid"],
+            'title': title,
+            'start_date': start_date,
+            'start_time': start_time,
+            'end_date': end_date,
+            'end_time': end_time,
+            'location': location,
         })
         self.save()
 

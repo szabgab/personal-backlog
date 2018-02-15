@@ -9,6 +9,7 @@ def main():
     args = arp.parse_args()
     pb = PersonalBacklog.PB(args.file)
 
+    show_menu()
     while True:
         choice = input("pb> ")
         if choice == 'a':
@@ -23,6 +24,14 @@ def main():
             pb.list()
         elif choice == 'm':
                 show_menu()
+        elif choice == 's':
+                title = input("Schedule Title: ")
+                start_date = input("Start Date YYYY-MM-DD 0=today 1=tomorrow: ")
+                start_time = input("Start time HH:MM: ")
+                end_date   = input("End Date YYYY-MM-DD ENTER=same as start date")
+                end_time   = input("End time HH::MM: ")
+                location   = input("Location (free text): ")
+                pb.schedule(title, start_date, start_time, end_date, end_time, location)
         elif choice == 'x':
             pb.save()
             exit()
@@ -31,9 +40,11 @@ def main():
 
 
 def show_menu():
-    print("m) Menu")
     print("a) Add task")
+    print("d) Delete")
     print("l) List")
+    print("m) Menu")
+    print("s) Schedule")
     print("x) eXit")
 
 
