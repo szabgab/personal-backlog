@@ -9,7 +9,7 @@ def pb(tmpdir):
 
 
 class TestPB(object):
-    def test_pb(self, pb, capsys):
+    def test_empty(self, pb, capsys):
 
         assert pb.list_calendar() == None
         out, err = capsys.readouterr()
@@ -21,6 +21,7 @@ class TestPB(object):
         assert err == ''
         assert out == ''
 
+    def test_add(self, pb, capsys):
         assert pb.add("Hello World", '1', '3') == None
         out, err = capsys.readouterr()
         assert err == ''
@@ -40,6 +41,16 @@ class TestPB(object):
         out, err = capsys.readouterr()
         assert err == ''
         assert out == ''
+
+        assert pb.list_todo() == None
+        out, err = capsys.readouterr()
+        assert err == ''
+        assert out == '0) 3 - 1 - Hello World\n1) 2 - 3 - Second Task\n2) 7 - 0 - Third Thing\n'
+
+    def test_delete(self, pb, capsys):
+        pb.add("Hello World", '1', '3')
+        pb.add("Second Task", '3', '2')
+        pb.add("Third Thing", '0', '7')
 
         assert pb.list_todo() == None
         out, err = capsys.readouterr()
