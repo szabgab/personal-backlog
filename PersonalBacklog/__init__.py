@@ -91,6 +91,31 @@ class PB(object):
                 print("{tidx}) {start_time} - {end_time} - {title}".format(tidx = tid, **entry))
 
     def delete(self, inp):
+        ret = self._locate_in_list(inp)
+        if 'error' in ret:
+            return ret
+        else:
+            self.data["todo"].pop(ret['tid'])
+            self.save()
+            return {}
+
+    def get(self, inp):
+        ret = self._locate_in_list(inp)
+        if 'error' in ret:
+            return ret
+        else:
+            return self.data["todo"][ret['tid']]
+
+    def update(self, inp, entry):
+        ret = self._locate_in_list(inp)
+        if 'error' in ret:
+            return ret
+        else:
+            self.data["todo"][ret['tid']]['title'] = entry['title']
+            self.save()
+            return {}
+
+    def _locate_in_list(self, inp):
         if not re.search('\A\d+\Z', inp):
             return {"error" : "Invalid input '{}'".format(inp)}
 
@@ -101,10 +126,7 @@ class PB(object):
         for i in range(len(self.data["todo"])):
             entry = self.data["todo"][i]
             if entry["id"] == self.tid[tid]:
-                self.data["todo"].pop(i)
-                #print(entry)
-                self.save()
-                return {}
+                return { 'tid' : i }
         return { "error" : "Internal error. Could not find it." }
 
 

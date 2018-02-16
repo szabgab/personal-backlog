@@ -2,6 +2,16 @@
 import argparse
 import PersonalBacklog
 import re
+import readline
+
+def input_with_prefill(prompt, text):
+    def hook():
+        readline.insert_text(text)
+        readline.redisplay()
+    readline.set_pre_input_hook(hook)
+    result = input(prompt)
+    readline.set_pre_input_hook()
+    return result
 
 def main():
     arp = argparse.ArgumentParser()
@@ -14,6 +24,7 @@ def main():
         choice = input("pb> ")
 
         re_delete = '\Ad\s+(\d+)\Z'
+        re_edit = '\Ae\s+(\d+)\Z'
 
         ret = {}
         if choice == 'a':
@@ -24,6 +35,14 @@ def main():
         elif re.search(re_delete, choice):
             m = re.search(re_delete, choice)
             ret = pb.delete(m.group(1))
+        elif re.search(re_edit, choice):
+            m = re.search(re_edit, choice)
+            entry = pb.get(m.group(1))
+            if 'error' in entry:
+                print(entry['error'])
+            else:
+                entry["title"] = input_with_prefill("edit title> ", entry["title"])
+                pb.update(m.group(1), entry)
         elif choice == 'lt':
             pb.list_todo()
         elif choice == 'lc':
@@ -49,7 +68,8 @@ def main():
 
 def show_menu():
     print("a) Add task")
-    print("d) Delete")
+    print("d N) Delete")
+    print("e N Edit")
     print("lt) List todo")
     print("lc) List calendar")
     print("m) Menu")
