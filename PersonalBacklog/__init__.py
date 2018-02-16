@@ -111,7 +111,8 @@ class PB(object):
         if 'error' in ret:
             return ret
         else:
-            self.data["todo"][ret['tid']]['title'] = entry['title']
+            for k in entry.keys():
+                self.data["todo"][ret['tid']][k] = entry[k]
             self.save()
             return {}
 
@@ -128,6 +129,24 @@ class PB(object):
             if entry["id"] == self.tid[tid]:
                 return { 'tid' : i }
         return { "error" : "Internal error. Could not find it." }
+
+    def process_cli(self, inp):
+        m = re.search('\A(\d+)\s+done\s*(\s(now|yesterday))?\Z', inp)
+        print("process")
+        if m:
+            print("match")
+            entry = self._locate_in_list(m.group(1))
+            when = m.group(3)
+            today = datetime.datetime.now()
+            yesterday = today - datetime.timedelta(days=1)
+            if when == 'now' or when == '':
+                entry["done"] = today.strftime("%Y-%m-%d")
+            elif when == 'yesterday':
+                entry["done"] = yesterday.strftime("%Y-%m-%d")
+            else:
+                pass # TODO error?
+            self.update(m.group(1), entry)
+            self.save()
 
 
     def save(self):

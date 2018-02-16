@@ -60,6 +60,8 @@ def main():
         elif choice == 'x' or choice == 'q':
             pb.save()
             exit()
+        elif re.search('\A\d+\s', choice):
+            pb.process_cli(choice)
         else:
             print("Invalid choice '{}'".format(choice))
 
