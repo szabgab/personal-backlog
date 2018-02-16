@@ -1,5 +1,6 @@
 # Personal Backlog
 [![Build Status](https://travis-ci.org/szabgab/personal-backlog.png)](https://travis-ci.org/szabgab/personal-backlog)
+[![Coverage Status](https://coveralls.io/repos/github/szabgab/personal-backlog/badge.svg)](https://coveralls.io/github/szabgab/personal-backlog)
 
 
 
