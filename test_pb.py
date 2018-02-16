@@ -20,7 +20,7 @@ class TestPB(object):
 
     def test_empty(self, pb, capsys):
 
-        assert pb.list_calendar() == None
+        assert pb.list_calendar(0) == None
         out, err = capsys.readouterr()
         assert err == ''
         assert out == ''

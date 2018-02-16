@@ -80,12 +80,13 @@ class PB(object):
             self.tid.append(entry['id'])
             print("{tidx}) {priority} - {estimate} - {title}".format(tidx = tid, **entry))
 
-    def list_calendar(self):
+    def list_calendar(self, when):
         tid = -1
         self.tid = []
-        today = datetime.datetime.now().strftime("%Y-%m-%d")
+        date_obj = datetime.datetime.now() + datetime.timedelta(days=int(when))
+        date = date_obj.strftime("%Y-%m-%d")
         for entry in self.data["calendar"]:
-            if entry["start_date"] == today:
+            if entry["start_date"] == date:
                 tid += 1
                 self.tid.append(entry['id'])
                 print("{tidx}) {start_time} - {end_time} - {title}".format(tidx = tid, **entry))

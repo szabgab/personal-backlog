@@ -25,6 +25,7 @@ def main():
 
         re_delete = '\Ad\s+(\d+)\Z'
         re_edit = '\Ae\s+(\d+)\Z'
+        re_cal = '\Acal\s+(-?\d+)\Z'
 
         ret = {}
         if choice == 'a':
@@ -45,8 +46,11 @@ def main():
                 pb.update(m.group(1), entry)
         elif choice == 'lt':
             pb.list_todo()
-        elif choice == 'lc':
-            pb.list_calendar()
+        elif choice == 'cal':
+            pb.list_calendar('0')
+        elif re.search(re_cal, choice):
+            m = re.search(re_cal, choice)
+            pb.list_calendar(m.group(1))
         elif choice == 'm':
                 show_menu()
         elif choice == 's':
@@ -73,7 +77,7 @@ def show_menu():
     print("d N) Delete")
     print("e N Edit")
     print("lt) List todo")
-    print("lc) List calendar")
+    print("cal) List calendar")
     print("m) Menu")
     print("s) Schedule")
     print("x) eXit")
