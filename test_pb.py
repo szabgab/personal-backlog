@@ -4,7 +4,7 @@ import pytest
 
 @pytest.fixture
 def pb(tmpdir):
-    filename = os.path.join(tmpdir, 'test.json')
+    filename = os.path.join(str(tmpdir), 'test.json')
     return PersonalBacklog.PB(filename)
 
 @pytest.fixture
