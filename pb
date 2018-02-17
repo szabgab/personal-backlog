@@ -3,6 +3,10 @@ import argparse
 import PersonalBacklog
 import re
 import readline
+import sys
+
+if sys.version_info.major < 3:
+    exit("Python 3 is required")
 
 def input_with_prefill(prompt, text):
     def hook():
