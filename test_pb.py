@@ -64,6 +64,11 @@ class TestPB(object):
     def test_delete(self, pbx, capsys):
         pb = pbx
 
+        assert pb.delete('x') == {'error': "Invalid input 'x'"}
+        out, err = capsys.readouterr()
+        assert err == ''
+        assert out == ''
+
         # delete before listing does not know what to delete
         assert pb.delete('1') == {'error': "Invalid id - not in range '1'"}
         out, err = capsys.readouterr()

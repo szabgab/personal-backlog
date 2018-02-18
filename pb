@@ -45,9 +45,54 @@ class MyPrompt(Cmd):
         if 'error' in ret:
             print(ret['error'])
 
+    def do_delete(self, inp):
+        '''
+        delete a TODO item.
+        It accepts a number from the 'list' command.
+        '''
+        ret = self.pb.delete(inp)
+        if 'error' in ret:
+            print(ret['error'])
+
+    def do_edit(self, inp):
+        '''
+        edit entry from a 'list'
+        '''
+#        m = re.search('\A(\d+)\Z', choice)
+        entry = self.pb.get(inp)
+        if 'error' in entry:
+            print(entry['error'])
+        else:
+            entry["title"] = input_with_prefill("edit title> ", entry["title"])
+            self.pb.update(inp, entry)
+
+
+    def do_list(self, inp):
+        '''
+        List TODO items
+        '''
+        self.pb.list_todo()
+
+    def do_schedule(self, inp):
+        '''
+        Schedule: add a calendar entry
+        '''
+        title = input("Schedule Title: ")
+        start_date = input("Start Date YYYY-MM-DD 0=today 1=tomorrow: ")
+        start_time = input("Start time HH:MM: ")
+        end_date   = input("End Date YYYY-MM-DD ENTER=same as start date")
+        end_time   = input("End time HH::MM: ")
+        location   = input("Location (free text): ")
+        ret = self.pb.schedule(title, start_date, start_time, end_date, end_time, location)
+        if 'error' in ret:
+            print(ret['error'])
+
     def default(self, inp):
         if inp == 'x' or inp == 'q':
             return self.do_exit(inp)
+
+        if re.search('\A\d+\s', inp):
+            self.pb.process_cli(inp)
 
         print("Unhandled command: {}".format(inp))
 
@@ -70,51 +115,6 @@ def main():
     cli.pb = PersonalBacklog.PB(args.file)
     cli.cmdloop()
 
-    #     re_delete = '\Ad\s+(\d+)\Z'
-    #     re_edit = '\Ae\s+(\d+)\Z'
-    #
-    #     ret = {}
-    #     elif re.search(re_delete, choice):
-    #         m = re.search(re_delete, choice)
-    #         ret = pb.delete(m.group(1))
-    #     elif re.search(re_edit, choice):
-    #         m = re.search(re_edit, choice)
-    #         entry = pb.get(m.group(1))
-    #         if 'error' in entry:
-    #             print(entry['error'])
-    #         else:
-    #             entry["title"] = input_with_prefill("edit title> ", entry["title"])
-    #             pb.update(m.group(1), entry)
-    #     elif choice == 'lt':
-    #         pb.list_todo()
-    #     elif choice == 'm':
-    #             show_menu()
-    #     elif choice == 's':
-    #             title = input("Schedule Title: ")
-    #             start_date = input("Start Date YYYY-MM-DD 0=today 1=tomorrow: ")
-    #             start_time = input("Start time HH:MM: ")
-    #             end_date   = input("End Date YYYY-MM-DD ENTER=same as start date")
-    #             end_time   = input("End time HH::MM: ")
-    #             location   = input("Location (free text): ")
-    #             ret = pb.schedule(title, start_date, start_time, end_date, end_time, location)
-    #     elif choice == 'x' or choice == 'q':
-    #         pb.save()
-    #         exit()
-    #     elif re.search('\A\d+\s', choice):
-    #         pb.process_cli(choice)
-    #     else:
-    #         print("Invalid choice '{}'".format(choice))
-    #
-    #     if 'error' in ret:
-    #         print(ret['error'])
-
-def show_menu():
-    print("d N) Delete")
-    print("e N Edit")
-    print("lt) List todo")
-    print("m) Menu")
-    print("s) Schedule")
-    print("x) eXit")
 
 
 if __name__ == '__main__':

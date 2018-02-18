@@ -95,6 +95,9 @@ class PB(object):
         return {}
 
     def delete(self, inp):
+        if not re.search('\A\d+\Z', inp):
+            return {'error': "Invalid input '{}'".format(inp)}
+
         ret = self._locate_in_list(inp)
         if 'error' in ret:
             return ret
