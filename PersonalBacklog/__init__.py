@@ -22,8 +22,7 @@ class PB(object):
 
     def add(self, title, estimate, priority):
         if not re.search('\A\d+\Z', estimate):
-            print("Invalid estimate '{}'".format(estimate))
-            return
+            return { 'error': "Invalid estimate '{}'".format(estimate) }
         estimate = int(estimate)
 
         if priority == 'x':
@@ -31,8 +30,7 @@ class PB(object):
         elif re.search('\A\d+\Z', priority):
             priority = int(priority)
         else:
-            print("Invalid priority '{}'".format(priority))
-            return
+            return {'error': "Invalid priority '{}'".format(priority) }
 
         self.data["maxid"] += 1
         self.data["todo"].append( {
@@ -42,6 +40,7 @@ class PB(object):
             'priority': priority,
         })
         self.save()
+        return {}
 
     def schedule(self, title, start_date, start_time, end_date, end_time, location):
         today = datetime.datetime.now()

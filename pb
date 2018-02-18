@@ -18,6 +18,19 @@ class MyPrompt(Cmd):
         print("Bye")
         return True
 
+    def do_add(self, inp):
+        '''
+            Add task.
+            Will ask for title, estimate, and priority.
+        '''
+        title = input("Task Title: ")
+        estimate = input("Estimate (1, 2, 3, 5, 8, 13, 21, 34, 55): ")
+        priority = input("Priority (0 = now, x = max time, some number): ")
+        ret = self.pb.add(title, estimate, priority)
+        if 'error' in ret:
+            print(ret['error'])
+
+
     def do_cal(self, inp):
         '''Show calendar
            cal      (default = today)
@@ -61,11 +74,6 @@ def main():
     #     re_edit = '\Ae\s+(\d+)\Z'
     #
     #     ret = {}
-    #     if choice == 'a':
-    #             title = input("Task Title: ")
-    #             estimate = input("Estimate (1, 2, 3, 5, 8, 13, 21, 34, 55): ")
-    #             priority = input("Priority (0 = now, x = max time, some number): ")
-    #             pb.add(title, estimate, priority)
     #     elif re.search(re_delete, choice):
     #         m = re.search(re_delete, choice)
     #         ret = pb.delete(m.group(1))
@@ -101,11 +109,9 @@ def main():
     #         print(ret['error'])
 
 def show_menu():
-    print("a) Add task")
     print("d N) Delete")
     print("e N Edit")
     print("lt) List todo")
-    print("cal) List calendar")
     print("m) Menu")
     print("s) Schedule")
     print("x) eXit")

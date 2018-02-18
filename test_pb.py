@@ -36,7 +36,7 @@ class TestPB(object):
         assert out == ''
 
     def test_add(self, pb, capsys):
-        assert pb.add("Hello World", '1', '3') == None
+        assert pb.add("Hello World", '1', '3') == {}
         out, err = capsys.readouterr()
         assert err == ''
         assert out == ''
@@ -46,12 +46,12 @@ class TestPB(object):
         assert err == ''
         assert out == '0) 3 - 1 - Hello World\n'
 
-        assert pb.add("Second Task", '3', '2') == None
+        assert pb.add("Second Task", '3', '2') == {}
         out, err = capsys.readouterr()
         assert err == ''
         assert out == ''
 
-        assert pb.add("Third Thing", '0', '7') == None
+        assert pb.add("Third Thing", '0', '7') == {}
         out, err = capsys.readouterr()
         assert err == ''
         assert out == ''
