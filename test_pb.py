@@ -37,6 +37,10 @@ class TestPB(object):
         assert out == ''
 
     def test_add(self, pb, capsys):
+        assert pb.add("First Class", 'x', '3') == { 'error' : "Invalid estimate 'x'" }
+        assert pb.add("Second Class", '1', 'z') == { 'error' : "Invalid priority 'z'" }
+
+
         assert pb.add("Hello World", '1', '3') == {}
         out, err = capsys.readouterr()
         assert err == ''
