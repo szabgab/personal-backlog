@@ -18,6 +18,7 @@ def pbx(pb):
 
 class TestPB(object):
 
+
     def test_empty(self, pb, capsys):
 
         assert pb.list_calendar('0') == {}
@@ -110,3 +111,27 @@ class TestPB(object):
         out, err = capsys.readouterr()
         assert err == ''
         assert out == '0) 3 - 1 - Hello World\n1) 2 - 2 - Fourth todo\n'
+
+
+    def test_save_and_load_again(self, tmpdir, capsys):
+        filename = os.path.join(str(tmpdir), 'test_save.json')
+        pb1 = PersonalBacklog.PB(filename)
+
+        assert pb1.list_todo() == None
+        out, err = capsys.readouterr()
+        assert err == ''
+        assert out == ''
+
+        pb1.add("Hello World", '1', '3')
+        assert pb1.list_todo() == None
+        out, err = capsys.readouterr()
+        assert err == ''
+        assert out == '0) 3 - 1 - Hello World\n'
+
+        filename = os.path.join(str(tmpdir), 'test_save.json')
+        pb2 = PersonalBacklog.PB(filename)
+
+        assert pb2.list_todo() == None
+        out, err = capsys.readouterr()
+        assert err == ''
+        assert out == '0) 3 - 1 - Hello World\n'
