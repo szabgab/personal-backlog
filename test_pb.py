@@ -47,7 +47,7 @@ class TestPB(object):
         assert err == ''
         assert out == ''
 
-        assert pb.add("Third Thing", '0', '7') == {}
+        assert pb.add("Third Thing", '0', 'x') == {}
         out, err = capsys.readouterr()
         assert err == ''
         assert out == ''
@@ -55,7 +55,7 @@ class TestPB(object):
         assert pb.list_todo() == None
         out, err = capsys.readouterr()
         assert err == ''
-        assert out == '0) 3 - 1 - Hello World\n1) 2 - 3 - Second Task\n2) 7 - 0 - Third Thing\n'
+        assert out == '0) 3 - 1 - Hello World\n1) 2 - 3 - Second Task\n2) 100 - 0 - Third Thing\n'
 
     def test_delete(self, pbx, capsys):
         pb = pbx
