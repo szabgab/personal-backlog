@@ -1,6 +1,7 @@
 import os
 import PersonalBacklog
 import pytest
+import datetime
 
 @pytest.fixture
 def pb(tmpdir):
@@ -106,6 +107,23 @@ class TestPB(object):
         out, err = capsys.readouterr()
         assert err == ''
         assert out == '0) 3 - 1 - Hello World\n1) 2 - 2 - Fourth todo\n'
+
+
+    def test_schedule(self, pb, capsys):
+        today_obj = datetime.datetime.now()
+        today = today_obj.strftime("%Y-%m-%d")
+        assert pb.schedule("Something important", today, "16:20", today, "17:35", "At home") == {}
+        out, err = capsys.readouterr()
+        assert err == ''
+        assert out == ''
+
+        assert pb.list_calendar('') == { 'error': "Invalid input ''" }
+        assert pb.list_calendar('x') == { 'error': "Invalid input 'x'" }
+
+        assert pb.list_calendar('0') == {}
+        out, err = capsys.readouterr()
+        assert err == ''
+        assert out == '0) 16:20 - 17:35 - Something important\n'
 
 
     def test_save_and_load_again(self, tmpdir, capsys):
