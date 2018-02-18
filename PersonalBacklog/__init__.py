@@ -81,6 +81,9 @@ class PB(object):
             print("{tidx}) {priority} - {estimate} - {title}".format(tidx = tid, **entry))
 
     def list_calendar(self, when):
+        if not re.search('\A-?\d+\Z', when):
+            return { 'error' : "Invalid input '{}'".format(when) }
+
         tid = -1
         self.tid = []
         date_obj = datetime.datetime.now() + datetime.timedelta(days=int(when))
@@ -90,6 +93,7 @@ class PB(object):
                 tid += 1
                 self.tid.append(entry['id'])
                 print("{tidx}) {start_time} - {end_time} - {title}".format(tidx = tid, **entry))
+        return {}
 
     def delete(self, inp):
         ret = self._locate_in_list(inp)

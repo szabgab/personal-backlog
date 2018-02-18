@@ -20,7 +20,12 @@ class TestPB(object):
 
     def test_empty(self, pb, capsys):
 
-        assert pb.list_calendar(0) == None
+        assert pb.list_calendar('0') == {}
+        out, err = capsys.readouterr()
+        assert err == ''
+        assert out == ''
+
+        assert pb.list_calendar('') == { 'error' : "Invalid input ''" }
         out, err = capsys.readouterr()
         assert err == ''
         assert out == ''

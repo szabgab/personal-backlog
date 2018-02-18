@@ -28,7 +28,9 @@ class MyPrompt(Cmd):
         '''
         if inp == '':
             inp = '0'
-        self.pb.list_calendar(inp)
+        ret = self.pb.list_calendar(inp)
+        if 'error' in ret:
+            print(ret['error'])
 
     def default(self, inp):
         if inp == 'x' or inp == 'q':
@@ -55,13 +57,8 @@ def main():
     cli.pb = PersonalBacklog.PB(args.file)
     cli.cmdloop()
 
-    # show_menu()
-    # while True:
-    #     choice = input("pb> ")
-    #
     #     re_delete = '\Ad\s+(\d+)\Z'
     #     re_edit = '\Ae\s+(\d+)\Z'
-    #     re_cal = '\Acal\s+(-?\d+)\Z'
     #
     #     ret = {}
     #     if choice == 'a':
