@@ -22,15 +22,7 @@ class TestPB(object):
     def test_empty(self, pb, capsys):
 
         assert pb.list_calendar('0') == {}
-        out, err = capsys.readouterr()
-        assert err == ''
-        assert out == ''
-
         assert pb.list_calendar('') == { 'error' : "Invalid input ''" }
-        out, err = capsys.readouterr()
-        assert err == ''
-        assert out == ''
-
         assert pb.list_todo() == None
         out, err = capsys.readouterr()
         assert err == ''
@@ -39,7 +31,6 @@ class TestPB(object):
     def test_add(self, pb, capsys):
         assert pb.add("First Class", 'x', '3') == { 'error' : "Invalid estimate 'x'" }
         assert pb.add("Second Class", '1', 'z') == { 'error' : "Invalid priority 'z'" }
-
 
         assert pb.add("Hello World", '1', '3') == {}
         out, err = capsys.readouterr()
